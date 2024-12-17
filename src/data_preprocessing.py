@@ -1,26 +1,48 @@
 import pandas as pd
+import os 
 
-# Function to load and clean stock data
-def load_stock_data(file_path):
-    # Load the CSV file into a pandas DataFrame
-    data = pd.read_csv(file_path)
-    
-    # Check for missing values and handle them (optional, e.g., drop rows with missing values)
-    data.dropna(inplace=True)
-    
-    # Convert 'Date' column to datetime format
-    data['Date'] = pd.to_datetime(data['Date'])
-    
-    return data
+#Folder path where the data files are located a
+data_folder = "../data"
 
-# Load stock data for AAPL, AMZN, GOOG, etc.
-aapl_data = load_stock_data('./data/AAPL_historical_data.csv')
-amzn_data = load_stock_data('./data/AMZN_historical_data.csv')
-goog_data = load_stock_data('./data/GOOG_historical_data.csv')
-meta_data = load_stock_data('./data/META_historical_data.csv')
-msft_data = load_stock_data('./data/MSFT_historical_data.csv')
-nvda_data = load_stock_data('./data/NVDA_historical_data.csv')
-tsla_data = load_stock_data('./data/TSLA_historical_data.csv')
+#load and preprocess financial news data
+def preprocess_news_data():
+    # Load the Financial news dataset
+    news_data = pd.read_csv(os.path.join(data_folder, "Raw_analyst_ratings.csv"))
+    
+    # Drop rows with missing headlines or stock symbols
+    news_data = news_data.dropna(subset=['headline', 'stock'])
+    
+    # Standardize the 'date' column to datetime format
+    news_data['date'] = pd.to_datetime(news_data['date'], errors='coerce')
+    
+    # Drop rows with invalid dates
+    news_data = news_data.dropna(subset=['date'])
+    
+    return news_data
 
-# Display the first few rows of AAPL data
-print(aapl_data.head())
+# Load and preprocess stock data
+def preprocess_stock_data():
+        stock_files = [
+        "AAPL_historical_data.csv", "AMZN_historical_data.csv", "GOOG_historical_data.csv",
+        "META_historical_data.csv", "MSFT_historical_data.csv", "NVDA_historical_data.csv", "TSLA_historical_data.csv"
+    ]
+        stock_data = {}
+
+        for file in stock_files:
+              # Load each stock file
+              stock_df = pd.read_csv(os.path.join(data_folder, file))
+
+              # Convert all column names to lowercase
+              stock_df.columns = stock_df.columns.str.lower()
+              
+              # Standardize the 'date' column to datetime format
+              stock_df['date'] = pd.to_datetime(stock_df['date'], errors='coerce')
+
+              # Drop rows with invalid dates
+              stock_df = stock_df.dropna(subset=['date'])
+
+              # Add the data to the dictionary with the ticker as the key
+              ticker = file.split('_')[0]  # Use the stock ticker (e.g., 'AAPL') as the key
+              stock_data[ticker] = stock_df
+
+        return stock_data
