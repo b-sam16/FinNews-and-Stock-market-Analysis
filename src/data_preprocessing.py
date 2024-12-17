@@ -33,7 +33,7 @@ def preprocess_stock_data():
               stock_df = pd.read_csv(os.path.join(data_folder, file))
 
               # Convert all column names to lowercase
-              stock_df.columns = stock_df.columns.str.lower()
+              #stock_df.columns = stock_df.columns.str.lower()
               
               # Standardize the 'date' column to datetime format
               stock_df['date'] = pd.to_datetime(stock_df['date'], errors='coerce')

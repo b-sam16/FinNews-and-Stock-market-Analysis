@@ -1,6 +1,6 @@
 import pandas as pd
 import matplotlib.pyplot as plt
-from technical_indicators import calculate_technical_indicators
+from technical_Indicators import calculate_technical_indicators
 
 def plot_stock_prices(stock_data, ticker):
     """
@@ -16,65 +16,6 @@ def plot_stock_prices(stock_data, ticker):
     plt.title(f'{ticker} Stock Prices Over Time')
     plt.xlabel('Date')
     plt.ylabel('Close Price')
-    plt.legend()
-    plt.show()
-
-def plot_moving_average(stock_data, ticker, window=20):
-    """
-    Plot the stock prices and overlay the moving average.
-
-    Parameters:
-    - stock_data: Dictionary containing stock DataFrames.
-    - ticker: The stock ticker symbol.
-    - window: Integer, window size for moving average.
-    """
-    df = stock_data[ticker]
-    df = calculate_technical_indicators(df)  # Apply technical indicators to the data
-    plt.figure(figsize=(10, 5))
-    plt.plot(df['date'], df['close'], label='Close Price', color='blue')
-    plt.plot(df['date'], df['MA'], label=f'{window}-day Moving Average', color='orange')
-    plt.title(f'{ticker} Stock Prices with {window}-day Moving Average')
-    plt.xlabel('Date')
-    plt.ylabel('Price')
-    plt.legend()
-    plt.show()
-
-def plot_rsi(stock_data, ticker):
-    """
-    Plot the Relative Strength Index (RSI) for a specific ticker.
-
-    Parameters:
-    - stock_data: Dictionary containing stock DataFrames.
-    - ticker: The stock ticker symbol.
-    """
-    df = stock_data[ticker]
-    df = calculate_technical_indicators(df)  # Apply technical indicators to the data
-    plt.figure(figsize=(10, 5))
-    plt.plot(df['date'], df['RSI'], label='RSI', color='green')
-    plt.axhline(70, linestyle='--', color='red', label='Overbought (70)')
-    plt.axhline(30, linestyle='--', color='blue', label='Oversold (30)')
-    plt.title(f'{ticker} Relative Strength Index (RSI)')
-    plt.xlabel('Date')
-    plt.ylabel('RSI')
-    plt.legend()
-    plt.show()
-
-def plot_macd(stock_data, ticker):
-    """
-    Plot the MACD and Signal line for a specific ticker.
-
-    Parameters:
-    - stock_data: Dictionary containing stock DataFrames.
-    - ticker: The stock ticker symbol.
-    """
-    df = stock_data[ticker]
-    df = calculate_technical_indicators(df)  # Apply technical indicators to the data
-    plt.figure(figsize=(10, 5))
-    plt.plot(df['date'], df['MACD'], label='MACD', color='purple')
-    plt.plot(df['date'], df['MACD_signal'], label='Signal Line', color='orange')
-    plt.title(f'{ticker} MACD and Signal Line')
-    plt.xlabel('Date')
-    plt.ylabel('Value')
     plt.legend()
     plt.show()
 
