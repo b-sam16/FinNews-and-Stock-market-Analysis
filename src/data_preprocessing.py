@@ -13,11 +13,11 @@ def preprocess_news_data():
     news_data = news_data.dropna(subset=['headline', 'stock'])
     
     # Standardize the 'date' column to datetime format
-    news_data['date'] = pd.to_datetime(news_data['date'], errors='coerce')
+    news_data['date'] = pd.to_datetime(news_data['date'].str.split(' ').str[0], errors='coerce', utc=True)
     
     # Drop rows with invalid dates
     news_data = news_data.dropna(subset=['date'])
-    
+
     return news_data
 
 # Load and preprocess stock data
@@ -33,10 +33,10 @@ def preprocess_stock_data():
               stock_df = pd.read_csv(os.path.join(data_folder, file))
 
               # Convert all column names to lowercase
-              #stock_df.columns = stock_df.columns.str.lower()
+              stock_df.columns = stock_df.columns.str.lower()
               
               # Standardize the 'date' column to datetime format
-              stock_df['date'] = pd.to_datetime(stock_df['date'], errors='coerce')
+              stock_df['date'] = pd.to_datetime(stock_df['date'].str.split(' ').str[0], errors='coerce', utc=True)
 
               # Drop rows with invalid dates
               stock_df = stock_df.dropna(subset=['date'])

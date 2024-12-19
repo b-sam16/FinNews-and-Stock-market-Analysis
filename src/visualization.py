@@ -1,4 +1,5 @@
 import pandas as pd
+import seaborn as sns
 import matplotlib.pyplot as plt
 from technical_Indicators import calculate_technical_indicators
 
@@ -55,5 +56,23 @@ def plot_stock_with_indicators(stock_data, ticker):
     ax[2].set_ylabel('Value')
     ax[2].legend()
 
+    plt.tight_layout()
+    plt.show()
+
+
+def plot_correlations(correlations):
+    """
+    Plot correlations between sentiment and stock returns.
+    """
+    # Convert the correlations dictionary to a DataFrame for plotting
+    correlation_df = pd.DataFrame(list(correlations.items()), columns=['Stock', 'Correlation'])
+
+    # Plot the correlations using seaborn
+    plt.figure(figsize=(10, 6))
+    sns.barplot(x='Stock', y='Correlation', data=correlation_df, palette='viridis', hue='Stock', dodge=False, legend=False)
+    plt.title("Correlation Between Sentiment and Stock Returns")
+    plt.xlabel('Stock Ticker')
+    plt.ylabel('Correlation')
+    plt.xticks(rotation=45)
     plt.tight_layout()
     plt.show()
